@@ -1,0 +1,9 @@
+*.qm
+.device
+.settings
+Makefile
+arm
+x86
+assets/.assets.index
+config.pri
+translations/Makefile
