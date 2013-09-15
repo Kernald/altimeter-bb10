@@ -77,25 +77,28 @@
     
     <!--  The category where the application appears. Either core.games or core.media. -->
     <configuration name="Device-Debug">
+       <asset path="icon-debug.png">icon.png</asset>
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7-g/Altimeter" entry="true" type="Qnx/Elf">Altimeter</asset>
     </configuration>
     <configuration name="Device-Release">
+       <asset path="icon.png">icon.png</asset>
        <entryPointType>Qnx/Cascades</entryPointType>
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7/Altimeter.so" entry="true" type="Qnx/Elf">Altimeter.so</asset>
     </configuration>
     <configuration name="Device-Profile">
+       <asset path="icon.png">icon.png</asset>
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm-p/o.le-v7-g/Altimeter" entry="true" type="Qnx/Elf">Altimeter</asset>
     </configuration>
     <configuration name="Simulator-Debug">
+       <asset path="icon-debug.png">icon.png</asset>
        <platformArchitecture>x86</platformArchitecture>
        <asset path="x86/o-g/Altimeter" entry="true" type="Qnx/Elf">Altimeter</asset>
     </configuration>
     
     <!--  The icon for the application -->
-    <asset path="icon.png">icon.png</asset>
     <asset path="assets">assets</asset>
     
     <!-- Locale support -->
