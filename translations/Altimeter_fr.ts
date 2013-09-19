@@ -31,6 +31,10 @@
         <source>Altitude: %1 %2</source>
         <translation>Altitude : %1 %2</translation>
     </message>
+    <message utf8="true">
+        <source>My current position is %1°-%2° - %3 %4!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>settings</name>

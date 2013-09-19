@@ -53,27 +53,32 @@ QString ApplicationUI::getLongitudeString() const {
 }
 
 QString ApplicationUI::getAltitudeString() const {
-	QString unit;
 	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
-	switch (tunit) {
+	return _valid ? trUtf8("Altitude: %1 %2").arg(convertAltitude(_altitude, tunit)).arg(getUnitString(tunit)) : tr("Waiting for GPS...");
+}
+
+QString ApplicationUI::getUnitString(E_Unit unit) {
+	switch (unit) {
 	case METERS:
-		unit = tr("meters");
-		break;
+		return tr("meters");
 
 	case FEET:
-		unit = tr("feet");
-		break;
+		return tr("feet");
 
 	case YARDS:
-		unit = tr("yards");
-		break;
+		return tr("yards");
 
 	default:
-		unit = tr("meters");
-		break;
+		return tr("meters");
 	}
+}
 
-	return _valid ? trUtf8("Altitude: %1 %2").arg(convertAltitude(_altitude, tunit)).arg(unit) : tr("Waiting for GPS...");
+QString ApplicationUI::formatForShare() const {
+	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
+	return trUtf8("My current position is %1°-%2° - %3 %4!").arg(_latitude)
+															.arg(_longitude)
+															.arg(convertAltitude(_altitude, tunit))
+															.arg(getUnitString(tunit));
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {

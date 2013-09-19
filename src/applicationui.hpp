@@ -43,6 +43,9 @@ public:
     QString getLatitudeString() const;
     QString getLongitudeString() const;
     QString getAltitudeString() const;
+    static QString getUnitString(E_Unit unit);
+
+    Q_INVOKABLE QString formatForShare() const;
 
     bool isValid() const;
 
