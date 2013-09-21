@@ -15,6 +15,8 @@
 #include <QtLocationSubset/QGeoPositionInfoSource>
 
 ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _latitude(0), _longitude(0), _altitude(0), _valid(false) {
+	DEFAULT_SHARE_TEXT = trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
+
 	bb::cascades::QmlDocument *qml = bb::cascades::QmlDocument::create("asset:///main.qml").parent(this);
 	qml->setContextProperty("_app", this);
 	qml->setContextProperty("_settings", &_settings);
@@ -30,6 +32,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 
 	QDeclarativePropertyMap* altitudeProperties = new QDeclarativePropertyMap;
 	altitudeProperties->insert("maxHeight", QVariant(MAX_ALTITUDE));
+	altitudeProperties->insert("defaultShareText", QVariant(DEFAULT_SHARE_TEXT));
 	qml->setContextProperty("AltitudeSettings", altitudeProperties);
 
 	bb::cascades::AbstractPane *root = qml->createRootObject<bb::cascades::AbstractPane>();
@@ -53,27 +56,36 @@ QString ApplicationUI::getLongitudeString() const {
 }
 
 QString ApplicationUI::getAltitudeString() const {
-	QString unit;
 	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
-	switch (tunit) {
+	return _valid ? trUtf8("Altitude: %1 %2").arg(convertAltitude(_altitude, tunit)).arg(getUnitString(tunit)) : tr("Waiting for GPS...");
+}
+
+QString ApplicationUI::getUnitString(E_Unit unit) {
+	switch (unit) {
 	case METERS:
-		unit = tr("meters");
-		break;
+		return tr("meters");
 
 	case FEET:
-		unit = tr("feet");
-		break;
+		return tr("feet");
 
 	case YARDS:
-		unit = tr("yards");
-		break;
+		return tr("yards");
 
 	default:
-		unit = tr("meters");
-		break;
+		return tr("meters");
 	}
+}
 
-	return _valid ? trUtf8("Altitude: %1 %2").arg(convertAltitude(_altitude, tunit)).arg(unit) : tr("Waiting for GPS...");
+QByteArray ApplicationUI::formatForShare() const {
+	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
+	double altitude = convertAltitude(_altitude, tunit);
+	QString unit = getUnitString(tunit);
+	QString result = DEFAULT_SHARE_TEXT;
+	result.replace("$LATITUDE$", QString::number(_latitude));
+	result.replace("$LONGITUDE$", QString::number(_longitude));
+	result.replace("$ALTITUDE$", QString::number(altitude));
+	result.replace("$ALTITUDE_UNIT$", unit);
+	return result.toUtf8();
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {

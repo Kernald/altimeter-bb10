@@ -11,6 +11,19 @@ NavigationPane {
         }
     }
    	Page {
+   	    actions: [
+   	        InvokeActionItem {
+                ActionBar.placement: ActionBarPlacement.OnBar
+   	            query {
+   	                mimeType: "text/plain"
+   	                invokeActionId: "bb.action.SHARE"
+   	            }
+   	            onTriggered: {
+   	                data = _app.formatForShare();
+                }
+            }
+        ]
+   	    
 	    Container {
 	        layout: AbsoluteLayout {}
 	        

@@ -31,6 +31,10 @@
         <source>Altitude: %1 %2</source>
         <translation>Altitude : %1 %2</translation>
     </message>
+    <message>
+        <source>My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!</source>
+        <translation>Ma position actuelle est $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$ !</translation>
+    </message>
 </context>
 <context>
     <name>settings</name>
@@ -57,6 +61,14 @@
     <message>
         <source>Top altitude</source>
         <translation>Altitude maximale</translation>
+    </message>
+    <message>
+        <source>Share text</source>
+        <translation>Texte de partage</translation>
+    </message>
+    <message>
+        <source>$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.</source>
+        <translation>$LATITUDE$ sera remplacé par la latitude actuelle, $LONGITUDE$ par la longitude, $ALTITUDE$ par l&apos;altitude et $ALTITUDE_UNIT$ par l&apos;unité choisie pour l&apos;altitude.</translation>
     </message>
 </context>
 </TS>

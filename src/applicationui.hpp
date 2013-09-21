@@ -43,6 +43,9 @@ public:
     QString getLatitudeString() const;
     QString getLongitudeString() const;
     QString getAltitudeString() const;
+    static QString getUnitString(E_Unit unit);
+
+    Q_INVOKABLE QByteArray formatForShare() const;
 
     bool isValid() const;
 
@@ -76,6 +79,7 @@ private:
     double						_longitude;
     double						_altitude;
     bool						_valid;
+    QString						DEFAULT_SHARE_TEXT;
 
     Settings					_settings;
 
