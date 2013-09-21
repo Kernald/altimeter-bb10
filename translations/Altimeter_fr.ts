@@ -64,19 +64,19 @@
     </message>
     <message>
         <source>Share text</source>
-        <translation type="unfinished">Texte de partage</translation>
+        <translation>Texte de partage</translation>
     </message>
     <message>
         <source>$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.</source>
-        <translation type="unfinished">$LATITUDE$ sera remplacé par la latitude actuelle, $LONGITUDE$ par la longitude, $ALTITUDE$ par l&apos;altitude et $ALTITUDE_UNIT$ par l&apos;unité choisie pour l&apos;altitude.</translation>
+        <translation>$LATITUDE$ sera remplacé par la latitude actuelle, $LONGITUDE$ par la longitude, $ALTITUDE$ par l&apos;altitude et $ALTITUDE_UNIT$ par l&apos;unité choisie pour l&apos;altitude.</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Rafraîchissement</translation>
     </message>
     <message>
         <source>Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai</translation>
     </message>
 </context>
 </TS>
