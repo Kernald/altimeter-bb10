@@ -45,13 +45,14 @@ public:
     QString getAltitudeString() const;
     static QString getUnitString(E_Unit unit);
 
-    Q_INVOKABLE QString formatForShare() const;
+    Q_INVOKABLE QByteArray formatForShare() const;
 
     bool isValid() const;
 
     static const int MAX_ALTITUDE = 9000;
     static const int OFFSET = 4947;
     static const int ALTITUDE_SUM = MAX_ALTITUDE + OFFSET;
+    static const QString DEFAULT_SHARE_TEXT;
 
 public Q_SLOTS:
     void positionUpdated(const QGeoPositionInfo& pos);

@@ -58,5 +58,32 @@ Page {
                 }
             }
         } // unit
+        
+        Divider {}
+        
+        Container {
+            horizontalAlignment: HorizontalAlignment.Fill
+            leftPadding: 20
+            rightPadding: 20
+            
+            Label {
+                text: qsTr("Share text")
+            }
+            Label {
+                text: qsTr("$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.")
+                multiline: true
+                textStyle.fontSize: FontSize.Small
+                textStyle.fontStyle: FontStyle.Italic
+                textStyle.fontWeight: FontWeight.W100
+            }
+            TextField {
+                id: shareText
+                objectName: "shareText"
+                text: _settings.getValueFor(objectName, AltitudeSettings.defaultShareText)
+                onTextChanged: {
+                    _settings.saveValueFor(shareText.objectName, text);
+                }
+            }
+        }
     }
 }

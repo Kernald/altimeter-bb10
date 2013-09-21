@@ -14,6 +14,9 @@
 
 #include <QtLocationSubset/QGeoPositionInfoSource>
 
+
+const QString ApplicationUI::DEFAULT_SHARE_TEXT = ApplicationUI::trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
+
 ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _latitude(0), _longitude(0), _altitude(0), _valid(false) {
 	bb::cascades::QmlDocument *qml = bb::cascades::QmlDocument::create("asset:///main.qml").parent(this);
 	qml->setContextProperty("_app", this);
@@ -30,6 +33,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 
 	QDeclarativePropertyMap* altitudeProperties = new QDeclarativePropertyMap;
 	altitudeProperties->insert("maxHeight", QVariant(MAX_ALTITUDE));
+	altitudeProperties->insert("defaultShareText", QVariant(DEFAULT_SHARE_TEXT));
 	qml->setContextProperty("AltitudeSettings", altitudeProperties);
 
 	bb::cascades::AbstractPane *root = qml->createRootObject<bb::cascades::AbstractPane>();
@@ -73,12 +77,16 @@ QString ApplicationUI::getUnitString(E_Unit unit) {
 	}
 }
 
-QString ApplicationUI::formatForShare() const {
+QByteArray ApplicationUI::formatForShare() const {
 	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
-	return trUtf8("My current position is %1°-%2° - %3 %4!").arg(_latitude)
-															.arg(_longitude)
-															.arg(convertAltitude(_altitude, tunit))
-															.arg(getUnitString(tunit));
+	double altitude = convertAltitude(_altitude, tunit);
+	QString unit = getUnitString(tunit);
+	QString result = DEFAULT_SHARE_TEXT;
+	result.replace("$LATITUDE$", QString::number(_latitude));
+	result.replace("$LONGITUDE$", QString::number(_longitude));
+	result.replace("$ALTITUDE$", QString::number(altitude));
+	result.replace("$ALTITUDE_UNIT$", unit);
+	return result.toUtf8();
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {
