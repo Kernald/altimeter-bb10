@@ -80,7 +80,7 @@ QByteArray ApplicationUI::formatForShare() const {
 	E_Unit tunit = static_cast<E_Unit>(Settings::getValueFor("unit", METERS).toInt());
 	double altitude = convertAltitude(_altitude, tunit);
 	QString unit = getUnitString(tunit);
-	QString result = DEFAULT_SHARE_TEXT;
+	QString result = Settings::getValueFor("shareText", DEFAULT_SHARE_TEXT).toString();
 	result.replace("$LATITUDE$", QString::number(_latitude));
 	result.replace("$LONGITUDE$", QString::number(_longitude));
 	result.replace("$ALTITUDE$", QString::number(altitude));
