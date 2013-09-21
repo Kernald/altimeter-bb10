@@ -70,5 +70,13 @@
         <source>$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delay</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

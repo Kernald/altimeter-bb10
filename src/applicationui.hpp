@@ -47,11 +47,15 @@ public:
 
     Q_INVOKABLE QByteArray formatForShare() const;
 
+    Q_INVOKABLE static QDateTime qdateTimeFromMsecs(int msecs);
+    Q_INVOKABLE static int msecsFromQDateTime(QDateTime date);
+
     bool isValid() const;
 
     static const int MAX_ALTITUDE = 9000;
     static const int OFFSET = 4947;
     static const int ALTITUDE_SUM = MAX_ALTITUDE + OFFSET;
+    static const int DEFAULT_REFRESH_DELAY = 60000;
 
 public Q_SLOTS:
     void positionUpdated(const QGeoPositionInfo& pos);

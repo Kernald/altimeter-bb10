@@ -33,6 +33,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 	QDeclarativePropertyMap* altitudeProperties = new QDeclarativePropertyMap;
 	altitudeProperties->insert("maxHeight", QVariant(MAX_ALTITUDE));
 	altitudeProperties->insert("defaultShareText", QVariant(DEFAULT_SHARE_TEXT));
+	altitudeProperties->insert("defaultRefreshDelay", QVariant(DEFAULT_REFRESH_DELAY));
 	qml->setContextProperty("AltitudeSettings", altitudeProperties);
 
 	bb::cascades::AbstractPane *root = qml->createRootObject<bb::cascades::AbstractPane>();
@@ -40,7 +41,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 	_altitudeLine = root->findChild<bb::cascades::Container*>("altitudeLine");
 
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
-    src->setUpdateInterval(60000);
+    src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
 
     connect(src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
     connect(src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
@@ -86,6 +87,14 @@ QByteArray ApplicationUI::formatForShare() const {
 	result.replace("$ALTITUDE$", QString::number(altitude));
 	result.replace("$ALTITUDE_UNIT$", unit);
 	return result.toUtf8();
+}
+
+QDateTime ApplicationUI::qdateTimeFromMsecs(int msecs) {
+	return QDateTime(QDate::currentDate()).addMSecs(msecs);
+}
+
+int ApplicationUI::msecsFromQDateTime(QDateTime date) {
+	return QDateTime(date.date()).msecsTo(date);
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {

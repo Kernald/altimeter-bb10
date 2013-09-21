@@ -6,84 +6,111 @@ Page {
         visibility: ChromeVisibility.Visible
     }
     
-    Container {
-        topPadding: 20
+    ScrollView {
+        scrollViewProperties.scrollMode: ScrollMode.Vertical
         Container {
-            horizontalAlignment: HorizontalAlignment.Fill
-            leftPadding: 20
-            rightPadding: 20
-            
-            Label {
-                text: qsTr("Top altitude")
-            }
-            TextField {
-                id: maxHeight
-                objectName: "maxHeight"
-                inputMode: TextFieldInputMode.NumbersAndPunctuation
-                text: _settings.getValueFor(objectName, AltitudeSettings.maxHeight)
-                onTextChanged: {
-                    _settings.saveValueFor(maxHeight.objectName, text);
+            topPadding: 20
+            Container {
+                horizontalAlignment: HorizontalAlignment.Fill
+                leftPadding: 20
+                rightPadding: 20
+                
+                Label {
+                    text: qsTr("Top altitude")
                 }
-            }
-
-        } // max height
-        
-        Divider {}
-        
-        Container {
-            horizontalAlignment: HorizontalAlignment.Fill
-            leftPadding: 20
-            rightPadding: 20
-            
-            Label {
-                text: qsTr("Unit")
-            }
-            DropDown {
-                id: unit
-                objectName: "unit"
-                options: [
-                    Option {
-                        text: qsTr("Meters")
-                    },
-                    Option {
-                        text: qsTr("Feet")
-                    },
-                    Option {
-                        text: qsTr("Yards")
+                TextField {
+                    id: maxHeight
+                    objectName: "maxHeight"
+                    inputMode: TextFieldInputMode.NumbersAndPunctuation
+                    text: _settings.getValueFor(objectName, AltitudeSettings.maxHeight)
+                    onTextChanged: {
+                        _settings.saveValueFor(maxHeight.objectName, text);
                     }
-                ]
-                selectedIndex: _settings.getValueFor(objectName, 0)
-                onSelectedIndexChanged: {
-                    _settings.saveValueFor(unit.objectName, selectedIndex);
                 }
-            }
-        } // unit
-        
-        Divider {}
-        
-        Container {
-            horizontalAlignment: HorizontalAlignment.Fill
-            leftPadding: 20
-            rightPadding: 20
             
-            Label {
-                text: qsTr("Share text")
-            }
-            Label {
-                text: qsTr("$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.")
-                multiline: true
-                textStyle.fontSize: FontSize.Small
-                textStyle.fontStyle: FontStyle.Italic
-                textStyle.fontWeight: FontWeight.W100
-            }
-            TextField {
-                id: shareText
-                objectName: "shareText"
-                text: _settings.getValueFor(objectName, AltitudeSettings.defaultShareText)
-                onTextChanged: {
-                    _settings.saveValueFor(shareText.objectName, text);
+            } // max height
+            
+            Divider {}
+            
+            Container {
+                horizontalAlignment: HorizontalAlignment.Fill
+                leftPadding: 20
+                rightPadding: 20
+                
+                Label {
+                    text: qsTr("Unit")
                 }
-            }
+                DropDown {
+                    id: unit
+                    objectName: "unit"
+                    options: [
+                        Option {
+                            text: qsTr("Meters")
+                        },
+                        Option {
+                            text: qsTr("Feet")
+                        },
+                        Option {
+                            text: qsTr("Yards")
+                        }
+                    ]
+                    selectedIndex: _settings.getValueFor(objectName, 0)
+                    onSelectedIndexChanged: {
+                        _settings.saveValueFor(unit.objectName, selectedIndex);
+                    }
+                }
+            } // unit
+            
+            Divider {}
+            
+            Container {
+                horizontalAlignment: HorizontalAlignment.Fill
+                leftPadding: 20
+                rightPadding: 20
+                
+                Label {
+                    text: qsTr("Refresh")
+                }
+                DateTimePicker {
+                    id: refreshDelay
+                    objectName: "refreshDelay"
+                    value: _app.qdateTimeFromMsecs(_settings.getValueFor(objectName, AltitudeSettings.defaultRefreshDelay))
+                    mode: DateTimePickerMode.Timer
+                    title: qsTr("Delay")
+                    onValueChanged: {
+                        if (_app.msecsFromQDateTime(value) != 0) {
+                            _settings.saveValueFor(refreshDelay.objectName, _app.msecsFromQDateTime(value));
+                        }
+                    }
+                }
+            } // refresh delay
+            
+            Divider {}
+            
+            Container {
+                horizontalAlignment: HorizontalAlignment.Fill
+                leftPadding: 20
+                rightPadding: 20
+                
+                Label {
+                    text: qsTr("Share text")
+                }
+                Label {
+                    text: qsTr("$LATITUDE$ will be replaced by your current latitude, $LONGITUDE$ by your longitude, $ALTITUDE$ by your altitude and $ALTITUDE_UNIT$ by your choosen altitude unit.")
+                    multiline: true
+                    textStyle.fontSize: FontSize.Small
+                    textStyle.fontStyle: FontStyle.Italic
+                    textStyle.fontWeight: FontWeight.W100
+                }
+                TextField {
+                    id: shareText
+                    objectName: "shareText"
+                    text: _settings.getValueFor(objectName, AltitudeSettings.defaultShareText)
+                    onTextChanged: {
+                        _settings.saveValueFor(shareText.objectName, text);
+                    }
+                }
+            } // share
         }
     }
 }
