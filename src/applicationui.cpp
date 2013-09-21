@@ -14,10 +14,9 @@
 
 #include <QtLocationSubset/QGeoPositionInfoSource>
 
-
-const QString ApplicationUI::DEFAULT_SHARE_TEXT = ApplicationUI::trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
-
 ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _latitude(0), _longitude(0), _altitude(0), _valid(false) {
+	DEFAULT_SHARE_TEXT = trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
+
 	bb::cascades::QmlDocument *qml = bb::cascades::QmlDocument::create("asset:///main.qml").parent(this);
 	qml->setContextProperty("_app", this);
 	qml->setContextProperty("_settings", &_settings);

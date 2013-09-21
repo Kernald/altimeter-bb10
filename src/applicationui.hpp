@@ -52,7 +52,6 @@ public:
     static const int MAX_ALTITUDE = 9000;
     static const int OFFSET = 4947;
     static const int ALTITUDE_SUM = MAX_ALTITUDE + OFFSET;
-    static const QString DEFAULT_SHARE_TEXT;
 
 public Q_SLOTS:
     void positionUpdated(const QGeoPositionInfo& pos);
@@ -80,6 +79,7 @@ private:
     double						_longitude;
     double						_altitude;
     bool						_valid;
+    QString						DEFAULT_SHARE_TEXT;
 
     Settings					_settings;
 
