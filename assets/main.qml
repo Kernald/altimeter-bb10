@@ -21,6 +21,14 @@ NavigationPane {
    	            onTriggered: {
    	                data = _app.formatForShare();
                 }
+            },
+            ActionItem {
+                title: qsTr("Refresh")
+                imageSource: "asset:///images/ic_refresh.png"
+                ActionBar.placement: ActionBarPlacement.OnBar
+                onTriggered: {
+                    _app.refresh();
+                }
             }
         ]
    	    

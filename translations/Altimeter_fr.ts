@@ -37,6 +37,13 @@
     </message>
 </context>
 <context>
+    <name>main</name>
+    <message>
+        <source>Refresh</source>
+        <translation type="unfinished">Rafraîchissement</translation>
+    </message>
+</context>
+<context>
     <name>settings</name>
     <message>
         <source>Settings</source>

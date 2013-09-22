@@ -12,8 +12,6 @@
 
 #include <QtCore/QDebug>
 
-#include <QtLocationSubset/QGeoPositionInfoSource>
-
 ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _latitude(0), _longitude(0), _altitude(0), _valid(false) {
 	DEFAULT_SHARE_TEXT = trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
 
@@ -41,15 +39,15 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
     app->setScene(root);
 	_altitudeLine = root->findChild<bb::cascades::Container*>("altitudeLine");
 
-    QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
-    connect(src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
-    connect(src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
+    _src = QGeoPositionInfoSource::createDefaultSource(this);
+    connect(_src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
+    connect(_src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
 
     if (Settings::getValueFor("autoRefresh", DEFAULT_AUTO_REFRESH_STATE).toBool()) {
-    	src->startUpdates();
-    	src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
+    	_src->startUpdates();
+    	_src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
     } else
-    	src->requestUpdate(0);
+    	_src->requestUpdate(0);
 }
 
 QString ApplicationUI::getLatitudeString() const {
@@ -91,6 +89,10 @@ QByteArray ApplicationUI::formatForShare() const {
 	result.replace("$ALTITUDE$", QString::number(altitude));
 	result.replace("$ALTITUDE_UNIT$", unit);
 	return result.toUtf8();
+}
+
+void ApplicationUI::refresh() {
+	_src->requestUpdate(0);
 }
 
 QDateTime ApplicationUI::qdateTimeFromMsecs(int msecs) {
