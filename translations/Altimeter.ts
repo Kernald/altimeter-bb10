@@ -71,11 +71,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Refresh</source>
+        <source>Delay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delay</source>
+        <source>Auto-refresh</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

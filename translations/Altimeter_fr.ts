@@ -72,11 +72,15 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Rafraîchissement</translation>
+        <translation type="obsolete">Rafraîchissement</translation>
     </message>
     <message>
         <source>Delay</source>
         <translation>Délai</translation>
+    </message>
+    <message>
+        <source>Auto-refresh</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

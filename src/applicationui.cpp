@@ -33,6 +33,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 	QDeclarativePropertyMap* altitudeProperties = new QDeclarativePropertyMap;
 	altitudeProperties->insert("maxHeight", QVariant(MAX_ALTITUDE));
 	altitudeProperties->insert("defaultShareText", QVariant(DEFAULT_SHARE_TEXT));
+	altitudeProperties->insert("defaultAutoRefreshState", QVariant(DEFAULT_AUTO_REFRESH_STATE));
 	altitudeProperties->insert("defaultRefreshDelay", QVariant(DEFAULT_REFRESH_DELAY));
 	qml->setContextProperty("AltitudeSettings", altitudeProperties);
 
@@ -41,11 +42,14 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 	_altitudeLine = root->findChild<bb::cascades::Container*>("altitudeLine");
 
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
-    src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
-
     connect(src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
     connect(src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
-    src->startUpdates();
+
+    if (Settings::getValueFor("autoRefresh", DEFAULT_AUTO_REFRESH_STATE).toBool()) {
+    	src->startUpdates();
+    	src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
+    } else
+    	src->requestUpdate(0);
 }
 
 QString ApplicationUI::getLatitudeString() const {

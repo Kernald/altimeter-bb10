@@ -55,6 +55,7 @@ public:
     static const int MAX_ALTITUDE = 9000;
     static const int OFFSET = 4947;
     static const int ALTITUDE_SUM = MAX_ALTITUDE + OFFSET;
+    static const bool DEFAULT_AUTO_REFRESH_STATE = true;
     static const int DEFAULT_REFRESH_DELAY = 60000;
 
 public Q_SLOTS:
