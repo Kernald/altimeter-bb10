@@ -40,7 +40,7 @@
     <name>main</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished">Rafraîchissement</translation>
+        <translation>Rafraîchir</translation>
     </message>
 </context>
 <context>
@@ -87,7 +87,7 @@
     </message>
     <message>
         <source>Auto-refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Rafraîchir automatiquement</translation>
     </message>
 </context>
 </TS>
