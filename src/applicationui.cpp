@@ -98,6 +98,7 @@ int ApplicationUI::msecsFromQDateTime(QDateTime date) {
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {
+	qDebug() << "Position updated";
 	setLatitude(pos.coordinate().latitude());
 	setLongitude(pos.coordinate().longitude());
 	refreshAltitude(_latitude, _longitude);
@@ -106,7 +107,7 @@ void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {
 }
 
 void ApplicationUI::positionUpdateTimeout() {
-    qDebug() << "Timeout";
+    qDebug() << "Position update timed out";
 	_valid = false;
 	emit validChanged();
 }
