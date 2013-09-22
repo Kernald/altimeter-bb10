@@ -37,6 +37,13 @@
     </message>
 </context>
 <context>
+    <name>main</name>
+    <message>
+        <source>Refresh</source>
+        <translation>Rafraîchir</translation>
+    </message>
+</context>
+<context>
     <name>settings</name>
     <message>
         <source>Settings</source>
@@ -72,11 +79,15 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Rafraîchissement</translation>
+        <translation type="obsolete">Rafraîchissement</translation>
     </message>
     <message>
         <source>Delay</source>
         <translation>Délai</translation>
+    </message>
+    <message>
+        <source>Auto-refresh</source>
+        <translation>Rafraîchir automatiquement</translation>
     </message>
 </context>
 </TS>

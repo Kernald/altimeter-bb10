@@ -14,6 +14,7 @@ namespace bb {
 #include <QtNetwork/QNetworkReply>
 
 #include <QtLocationSubset/QGeoPositionInfo>
+#include <QtLocationSubset/QGeoPositionInfoSource>
 
 using namespace QtMobilitySubset;
 
@@ -47,6 +48,8 @@ public:
 
     Q_INVOKABLE QByteArray formatForShare() const;
 
+    Q_INVOKABLE void refresh();
+
     Q_INVOKABLE static QDateTime qdateTimeFromMsecs(int msecs);
     Q_INVOKABLE static int msecsFromQDateTime(QDateTime date);
 
@@ -55,6 +58,7 @@ public:
     static const int MAX_ALTITUDE = 9000;
     static const int OFFSET = 4947;
     static const int ALTITUDE_SUM = MAX_ALTITUDE + OFFSET;
+    static const bool DEFAULT_AUTO_REFRESH_STATE = true;
     static const int DEFAULT_REFRESH_DELAY = 60000;
 
 public Q_SLOTS:
@@ -88,6 +92,7 @@ private:
     Settings					_settings;
 
     bb::cascades::Container*	_altitudeLine;
+    QGeoPositionInfoSource*		_src;
 };
 
 inline bool ApplicationUI::isValid() const {

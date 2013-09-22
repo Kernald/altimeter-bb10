@@ -12,8 +12,6 @@
 
 #include <QtCore/QDebug>
 
-#include <QtLocationSubset/QGeoPositionInfoSource>
-
 ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _latitude(0), _longitude(0), _altitude(0), _valid(false) {
 	DEFAULT_SHARE_TEXT = trUtf8("My current position is $LATITUDE$%1-$LONGITUDE$%1 - $ALTITUDE$ $ALTITUDE_UNIT$!").arg(QChar(0xB0));
 
@@ -33,6 +31,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
 	QDeclarativePropertyMap* altitudeProperties = new QDeclarativePropertyMap;
 	altitudeProperties->insert("maxHeight", QVariant(MAX_ALTITUDE));
 	altitudeProperties->insert("defaultShareText", QVariant(DEFAULT_SHARE_TEXT));
+	altitudeProperties->insert("defaultAutoRefreshState", QVariant(DEFAULT_AUTO_REFRESH_STATE));
 	altitudeProperties->insert("defaultRefreshDelay", QVariant(DEFAULT_REFRESH_DELAY));
 	qml->setContextProperty("AltitudeSettings", altitudeProperties);
 
@@ -40,12 +39,15 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app): QObject(app), _lat
     app->setScene(root);
 	_altitudeLine = root->findChild<bb::cascades::Container*>("altitudeLine");
 
-    QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
-    src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
+    _src = QGeoPositionInfoSource::createDefaultSource(this);
+    connect(_src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
+    connect(_src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
 
-    connect(src, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
-    connect(src, SIGNAL(positionUpdated(const QGeoPositionInfo&)), this, SLOT(positionUpdated(const QGeoPositionInfo&)));
-    src->startUpdates();
+    if (Settings::getValueFor("autoRefresh", DEFAULT_AUTO_REFRESH_STATE).toBool()) {
+    	_src->startUpdates();
+    	_src->setUpdateInterval(Settings::getValueFor("refreshDelay", DEFAULT_REFRESH_DELAY).toInt());
+    } else
+    	_src->requestUpdate(0);
 }
 
 QString ApplicationUI::getLatitudeString() const {
@@ -89,6 +91,10 @@ QByteArray ApplicationUI::formatForShare() const {
 	return result.toUtf8();
 }
 
+void ApplicationUI::refresh() {
+	_src->requestUpdate(0);
+}
+
 QDateTime ApplicationUI::qdateTimeFromMsecs(int msecs) {
 	return QDateTime(QDate::currentDate()).addMSecs(msecs);
 }
@@ -98,6 +104,7 @@ int ApplicationUI::msecsFromQDateTime(QDateTime date) {
 }
 
 void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {
+	qDebug() << "Position updated";
 	setLatitude(pos.coordinate().latitude());
 	setLongitude(pos.coordinate().longitude());
 	refreshAltitude(_latitude, _longitude);
@@ -106,7 +113,7 @@ void ApplicationUI::positionUpdated(const QGeoPositionInfo& pos) {
 }
 
 void ApplicationUI::positionUpdateTimeout() {
-    qDebug() << "Timeout";
+    qDebug() << "Position update timed out";
 	_valid = false;
 	emit validChanged();
 }

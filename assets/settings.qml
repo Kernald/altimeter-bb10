@@ -68,8 +68,24 @@ Page {
                 leftPadding: 20
                 rightPadding: 20
                 
-                Label {
-                    text: qsTr("Refresh")
+                Container {
+                    layout: StackLayout {
+                        orientation: LayoutOrientation.LeftToRight
+                    }
+                    Label {
+                        text: qsTr("Auto-refresh")
+                        layoutProperties: StackLayoutProperties {
+                            spaceQuota: 1.0
+                        }
+                    }
+                    ToggleButton {
+                        id: autoRefresh
+                        objectName: "autoRefresh"
+                        checked: _settings.getValueFor(objectName, AltitudeSettings.defaultAutoRefreshState)
+                        onCheckedChanged: {
+                            _settings.saveValueFor(autoRefresh.objectName, checked);
+                        }
+                    }
                 }
                 DateTimePicker {
                     id: refreshDelay
@@ -77,6 +93,7 @@ Page {
                     value: _app.qdateTimeFromMsecs(_settings.getValueFor(objectName, AltitudeSettings.defaultRefreshDelay))
                     mode: DateTimePickerMode.Timer
                     title: qsTr("Delay")
+                    enabled: autoRefresh.checked
                     onValueChanged: {
                         if (_app.msecsFromQDateTime(value) != 0) {
                             _settings.saveValueFor(refreshDelay.objectName, _app.msecsFromQDateTime(value));
