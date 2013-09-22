@@ -89,5 +89,9 @@
         <source>Auto-refresh</source>
         <translation>Rafraîchir automatiquement</translation>
     </message>
+    <message>
+        <source>Changes won&apos;t be effective before restarting the application.</source>
+        <translation>Les modifications ne seront pas effectives avant de relancer l&apos;application.</translation>
+    </message>
 </context>
 </TS>

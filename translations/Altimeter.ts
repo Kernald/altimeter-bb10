@@ -85,5 +85,9 @@
         <source>Auto-refresh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Changes won&apos;t be effective before restarting the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

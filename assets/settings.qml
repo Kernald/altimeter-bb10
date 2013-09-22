@@ -15,6 +15,22 @@ Page {
                 leftPadding: 20
                 rightPadding: 20
                 
+	            Label {
+	                text: qsTr("Changes won't be effective before restarting the application.")
+	                multiline: true
+	                textStyle.fontStyle: FontStyle.Italic
+	                textStyle.fontSize: FontSize.Small
+	                textStyle.fontWeight: FontWeight.W100
+	            }
+	        } // Restart notice
+            
+            Divider {}
+            
+            Container {
+                horizontalAlignment: HorizontalAlignment.Fill
+                leftPadding: 20
+                rightPadding: 20
+                
                 Label {
                     text: qsTr("Top altitude")
                 }
